@@ -6,6 +6,7 @@ import '../../utils/dimenions.dart';
 import '../../widgets/app_column.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
+import '../../widgets/expandable_text_widget.dart';
 import '../../widgets/icon_and_text_widget.dart';
 import '../../widgets/small_text.dart';
 
@@ -69,11 +70,15 @@ class PopularFoodDetail extends StatelessWidget {
                     AppColumn(text:"Chinese side"),
                     SizedBox(height: Dimensions.height20,),
                     BigText(text: "Introduce"),
+                    // expandable text widget
+                    SizedBox(height: Dimensions.height20,),
+                    Expanded(child: SingleChildScrollView(child: ExpandableTextWidget(text: "Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, Hey what's up guys it's scarce here, "))),
+
+
                   ]
                 ),
             ),
           ),
-          // expandable text widget
 
         ]
       ),
