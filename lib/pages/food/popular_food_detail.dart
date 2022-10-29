@@ -13,17 +13,10 @@ import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/expandable_text_widget.dart';
 
-class PopularFoodDetail extends StatefulWidget {
+class PopularFoodDetail extends StatelessWidget {
   final int pageId;
 
   PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => new PopularFoodDetailState();
-}
-
-class PopularFoodDetailState extends State<PopularFoodDetail> {
-
 
   Future<bool> _onWillPop() async {
     return (await Get.toNamed(RouteHelper.getInitial())) ?? false;
@@ -31,7 +24,7 @@ class PopularFoodDetailState extends State<PopularFoodDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var product = Get.find<PopularProductController>().popularProductList[widget.pageId];
+    var product = Get.find<PopularProductController>().popularProductList[pageId];
     Get.find<PopularProductController>().initProduct(product, Get.find<CartController>()); // resets product data within the Ui in the case of us opening another product
     //print("page id is " + pageId.toString());
     //print("product name is " + product.name.toString());
