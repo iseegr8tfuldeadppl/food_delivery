@@ -1,20 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/controllers/recommended_product_controller.dart';
 import 'package:food_delivery/widgets/expandable_text_widget.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../routes/route_helper.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimenions.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({Key? key}) : super(key: key);
+  final int pageId;
+  const RecommendedFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<RecommendedProductController>().recommendedProductList[pageId];
+    //print("page id is " + pageId.toString());
+    //print("product name is " + product.name.toString());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
@@ -36,7 +43,7 @@ class RecommendedFoodDetail extends StatelessWidget {
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(20),
               child: Container(
-                child: Center(child: BigText(text: "Chinese Side", size: Dimensions.font26),),
+                child: Center(child: BigText(text: product.name!, size: Dimensions.font26),),
                 width: double.maxFinite,
                 padding: EdgeInsets.only(top: 5, bottom: 10,),
                 decoration: BoxDecoration(
@@ -52,8 +59,8 @@ class RecommendedFoodDetail extends StatelessWidget {
             backgroundColor: AppColors.yellowColor,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                    "assets/image/food0.png",
+                background: Image.network(
+                  AppConstants.BASE_URL + AppConstants.UPLOAD_URL + product.img!,
                   width: double.maxFinite,
                   fit: BoxFit.cover,
                 ),
@@ -63,7 +70,7 @@ class RecommendedFoodDetail extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  child: ExpandableTextWidget(text: "hey whats your age, hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,hey whats your age,"),
+                  child: ExpandableTextWidget(text: product.description!),
                   margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20,),
                 ),
               ],
@@ -85,7 +92,7 @@ class RecommendedFoodDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppIcon(icon: Icons.remove, backgroundColor: AppColors.mainColor, iconColor: Colors.white, iconSize: Dimensions.iconSize24),
-                BigText(text: "\$12.88" + "  X  " + "0 ", color: AppColors.mainBlackColor, size: Dimensions.font26),
+                BigText(text: "\$ ${product.price!}  X  0 ", color: AppColors.mainBlackColor, size: Dimensions.font26),
                 AppIcon(icon: Icons.add, backgroundColor: AppColors.mainColor, iconColor: Colors.white, iconSize: Dimensions.iconSize24),
               ],
             ),

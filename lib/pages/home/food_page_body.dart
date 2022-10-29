@@ -97,8 +97,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             ],
           ),
         ),
-        // list of food and images
 
+        // recommended food
+        // list of food and images
         GetBuilder<RecommendedProductController>(builder: (recommendedProduct){
             return recommendedProduct.isLoaded? ListView.builder(
                 shrinkWrap: true, // only needed with AlwaysScrollableScrollPhysics(),
@@ -108,7 +109,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
 
                   return GestureDetector(
                     onTap: () {
-                      Get.toNamed(RouteHelper.getRecommendedFood());
+                      Get.toNamed(RouteHelper.getRecommendedFood(index));
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: Dimensions.width20, right: Dimensions.width20, bottom: Dimensions.height10),
@@ -213,7 +214,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         children: [
           GestureDetector(
             onTap: () {
-              Get.toNamed(RouteHelper.getPopularFood());
+              Get.toNamed(RouteHelper.getPopularFood(index));
             },
             child: Container(
                 height: Dimensions.pageViewContainer,
