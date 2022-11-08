@@ -26,6 +26,8 @@ class PopularFoodDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     var product = Get.find<PopularProductController>().popularProductList[pageId];
     Get.find<PopularProductController>().initProduct(product, Get.find<CartController>()); // resets product data within the Ui in the case of us opening another product
+
+
     //print("page id is " + pageId.toString());
     //print("product name is " + product.name.toString());
 
@@ -65,7 +67,22 @@ class PopularFoodDetail extends StatelessWidget {
                         Get.toNamed(RouteHelper.getInitial());
                       },
                       child: AppIcon(icon: Icons.arrow_back_ios,)),
-                  AppIcon(icon: Icons.shopping_cart_outlined,),
+                  GetBuilder<PopularProductController>(builder: (controller){
+                    return Stack(
+                      children: [
+                        AppIcon(icon: Icons.shopping_cart_outlined,),
+                        Get.find<PopularProductController>().totalItems>=1?
+                        Positioned(right: 0, top: 0,
+                            child: AppIcon(icon: Icons.circle, size:20, iconColor: Colors.transparent, backgroundColor: AppColors.mainColor))
+                            : Container(),
+                        Get.find<PopularProductController>().totalItems>=1?
+                            Positioned(right: 3, top: 3,
+                            child: BigText(text: Get.find<PopularProductController>().totalItems.toString(),
+                            size: 12, color: Colors.white))
+                            : Container(),
+                      ]
+                    );
+                  }),
                 ],
               ),
             ),
@@ -130,7 +147,7 @@ class PopularFoodDetail extends StatelessWidget {
                           },
                           child: Icon(Icons.remove, color: AppColors.signColor, )),
                       SizedBox(width: Dimensions.width10/2,),
-                      BigText(text: popularProduct.quantity.toString(),),
+                      BigText(text: popularProduct.inCartItems.toString(),),
                       SizedBox(width: Dimensions.width10/2,),
                       GestureDetector(
                           onTap: () {
