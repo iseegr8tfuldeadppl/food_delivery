@@ -7,6 +7,7 @@ import 'package:food_delivery/routes/route_helper.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'controllers/cart_controller.dart';
 import 'controllers/popular_product_controller.dart';
 import 'controllers/recommended_product_controller.dart';
 import 'pages/home/main_food_page.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Get.find<CartController>().getCartData();
     return GetBuilder<PopularProductController>(builder: (_){ // having called this function we were able to save the two variables we loaded from the server (in splash_screen.dart)
       return GetBuilder<RecommendedProductController>(builder: (_){ // having called this function we were able to save the two variables we loaded from the server (in splash_screen.dart)
         return GetMaterialApp(
