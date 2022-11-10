@@ -12,6 +12,7 @@ import '../../widgets/app_column.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/expandable_text_widget.dart';
+import '../cart/cart_page.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   final int pageId;
@@ -73,7 +74,11 @@ class PopularFoodDetail extends StatelessWidget {
                         AppIcon(icon: Icons.shopping_cart_outlined,),
                         Get.find<PopularProductController>().totalItems>=1?
                         Positioned(right: 0, top: 0,
-                            child: AppIcon(icon: Icons.circle, size:20, iconColor: Colors.transparent, backgroundColor: AppColors.mainColor))
+                            child: GestureDetector(
+                                onTap: (){
+                                  Get.to(() => CartPage());
+                                },
+                                child: AppIcon(icon: Icons.circle, size:20, iconColor: Colors.transparent, backgroundColor: AppColors.mainColor)))
                             : Container(),
                         Get.find<PopularProductController>().totalItems>=1?
                             Positioned(right: 3, top: 3,
@@ -157,16 +162,17 @@ class PopularFoodDetail extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
-                  child: GestureDetector(
-                      onTap: () {
-                        popularProduct.addItem(product);
-                      },
-                      child: BigText(text: "\$ ${product.price!} | Add to text", color: Colors.white,)), // if ur variable is part of an object, then u'll need to add curly braces too like so: ${product.price!}
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radius20),
-                    color: AppColors.mainColor,
+                GestureDetector(
+                  onTap: () {
+                    popularProduct.addItem(product);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: Dimensions.height20, bottom: Dimensions.height20, left: Dimensions.width20, right: Dimensions.width20),
+                    child: BigText(text: "\$ ${product.price!} | Add to cart", color: Colors.white,), // if ur variable is part of an object, then u'll need to add curly braces too like so: ${product.price!}
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimensions.radius20),
+                      color: AppColors.mainColor,
+                    ),
                   ),
                 ),
               ],
