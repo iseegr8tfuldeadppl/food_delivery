@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/cart_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:intl/intl.dart';
 
+import '../../utils/app_constants.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimenions.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
+import '../../widgets/small_text.dart';
 
 class CartHistory extends StatelessWidget {
   const CartHistory({Key? key}) : super(key: key);
@@ -55,23 +58,68 @@ class CartHistory extends StatelessWidget {
                 left: Dimensions.width20,
                 right: Dimensions.width20,
               ),
-              child: ListView(
+              child: MediaQuery.removePadding(removeTop: true, context: context, child: ListView(
                 children: [
                   for(int i=0; i<itemsPerOrder.length; i++)
                     Container(
+                      height: 120,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          BigText(text: "05/02/2021"),
+                          ((){
+                            DateTime parseDate = DateFormat("yyyyy-MM-dd HH:mm:ss").parse(getCartHistoryList[listCounter].time!);
+                            var inputDate = DateTime.parse(parseDate.toString());
+                            var outputFormat = DateFormat("MM/dd/yyyy hh:mm a");
+                            var outputDate = outputFormat.format(inputDate);
+                            return BigText(text: outputDate);
+                          }()),
+                          SizedBox(height: Dimensions.height10),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Wrap(
                                 direction: Axis.horizontal,
                                 children: List.generate(itemsPerOrder[i], (index){
-                                  return Container(
-                                    child: Text("bro"),
-                                  );
+
+                                  // funniest implementation, but hey it works man i'll keep following
+                                  if(listCounter<getCartHistoryList.length){
+                                    listCounter ++;
+                                  }
+                                  return index<=2?Container(
+                                    height: 80,
+                                    width: 80,
+                                    margin: EdgeInsets.only(right: Dimensions.width10/2),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(Dimensions.radius15/2),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                            AppConstants.BASE_URL + AppConstants.UPLOAD_URL + getCartHistoryList[listCounter-1].img!,
+                                          ),
+                                        )
+                                    ),
+                                  ):Container();
                                 }),
+                              ),
+                              Container(
+                                height: 80,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    SmallText(text: "Total", color: AppColors.titleColor,),
+                                    BigText(text: itemsPerOrder[i].toString() + " Items", color: AppColors.titleColor),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(horizontal: Dimensions.width10,
+                                        vertical: Dimensions.height10,),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(Dimensions.radius15/3),
+                                        border: Border.all(width: 1, color: AppColors.mainColor),
+                                      ),
+                                      child: SmallText(text: "one more", color: AppColors.mainColor,),
+                                    ),
+                                  ]
+                                ),
                               ),
                             ],
                           ),
@@ -80,7 +128,7 @@ class CartHistory extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: Dimensions.height20,),
                     ),
                 ],
-              ),
+              )),
             ),
           ),
         ],
