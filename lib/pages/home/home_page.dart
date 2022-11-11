@@ -4,6 +4,7 @@ import 'package:food_delivery/pages/home/main_food_page.dart';
 //import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../utils/colors.dart';
+import '../cart/cart_history.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   List pages=[
     MainFoodPage(),
     Container(child: Center(child: Text("next page"))),
-    Container(child: Center(child: Text("next next page"))),
+    CartHistory(),
     Container(child: Center(child: Text("next next next page"))),
   ];
 
