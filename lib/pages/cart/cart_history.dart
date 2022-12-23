@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/controllers/cart_controller.dart';
@@ -5,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/cart_model.dart';
+import '../../routes/route_helper.dart';
 import '../../utils/app_constants.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimenions.dart';
@@ -17,7 +21,8 @@ class CartHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var getCartHistoryList = Get.find<CartController>().getCartHistoryList();
+    var getCartHistoryList = Get.find<CartController>().
+            getCartHistoryList().reversed.toList();
     Map<String, int> cartItemsPerOrder = Map();
 
     for(int i=0; i<getCartHistoryList.length; i++){
@@ -28,21 +33,24 @@ class CartHistory extends StatelessWidget {
       }
     }
 
-    List<int> cartOrderTimeToList(){
+    List<int> cartItemsPerOrderToList(){
       return cartItemsPerOrder.entries.map((e) =>e.value).toList();
     }
+    List<String> cartOrderTimeToList(){
+      return cartItemsPerOrder.entries.map((e) =>e.key).toList();
+    }
 
-    List<int> itemsPerOrder = cartOrderTimeToList();
+    List<int> itemsPerOrder = cartItemsPerOrderToList();
     var listCounter = 0;
 
     return Scaffold(
       body: Column(
         children: [
           Container(
-            height: 100,
+              height: Dimensions.height10*10,
             color: AppColors.mainColor,
             width: double.maxFinite,
-            padding: EdgeInsets.only(top: 45),
+            padding: EdgeInsets.only(top: Dimensions.height45),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -62,7 +70,7 @@ class CartHistory extends StatelessWidget {
                 children: [
                   for(int i=0; i<itemsPerOrder.length; i++)
                     Container(
-                      height: 120,
+                      height: Dimensions.height30*4,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -86,8 +94,8 @@ class CartHistory extends StatelessWidget {
                                     listCounter ++;
                                   }
                                   return index<=2?Container(
-                                    height: 80,
-                                    width: 80,
+                                    height: Dimensions.height20*4,
+                                    width: Dimensions.height20*4,
                                     margin: EdgeInsets.only(right: Dimensions.width10/2),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(Dimensions.radius15/2),
@@ -102,21 +110,37 @@ class CartHistory extends StatelessWidget {
                                 }),
                               ),
                               Container(
-                                height: 80,
+                                height: Dimensions.height20*4,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     SmallText(text: "Total", color: AppColors.titleColor,),
                                     BigText(text: itemsPerOrder[i].toString() + " Items", color: AppColors.titleColor),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: Dimensions.width10,
-                                        vertical: Dimensions.height10,),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(Dimensions.radius15/3),
-                                        border: Border.all(width: 1, color: AppColors.mainColor),
+                                    GestureDetector(
+                                      onTap: (){
+                                        var orderTime = cartOrderTimeToList();
+                                        Map<int, CartModel> moreOrder = {};
+                                        for(int j=0; j<getCartHistoryList.length; j++){
+                                          if(getCartHistoryList[j].time == orderTime[i]){
+                                            moreOrder.putIfAbsent(getCartHistoryList[j].id!, () =>
+                                              CartModel.fromJson(jsonDecode(jsonEncode(getCartHistoryList[j])))
+                                            );
+                                          }
+                                        }
+                                        Get.find<CartController>().setItems = moreOrder;
+                                        Get.find<CartController>().addToCartList();
+                                        Get.toNamed(RouteHelper.getCartPage());
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: Dimensions.width10,
+                                          vertical: Dimensions.height10,),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(Dimensions.radius15/3),
+                                          border: Border.all(width: 1, color: AppColors.mainColor),
+                                        ),
+                                        child: SmallText(text: "one more", color: AppColors.mainColor,),
                                       ),
-                                      child: SmallText(text: "one more", color: AppColors.mainColor,),
                                     ),
                                   ]
                                 ),
